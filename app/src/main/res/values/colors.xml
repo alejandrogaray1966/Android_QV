@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Celeste -->
+    <color name="blue_soft">#90CAF9</color>
+
+    <!-- Azul -->
+    <color name="blue_300">#64B5F6</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="blue_900">#0D47A1</color>
+
+    <!-- Verde -->
+    <color name="green_300">#81C784</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="green_700">#388E3C</color>
+    <color name="green_900">#1B5E20</color>
+
+    <!-- Rojo -->
+    <color name="red_300">#E57373</color>
+    <color name="red_500">#F44336</color>
+    <color name="red_700">#D32F2F</color>
+    <color name="red_900">#B71C1C</color>
+
+    <!-- Grises -->
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_900">#212121</color>
+
+    <!-- Básicos -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Roles de la Aplicación -->
+
+    <color name="primary">@color/blue_700</color>
+    <color name="primary_dark">@color/blue_900</color>
+
+    <color name="secondary">@color/green_500</color>
+    <color name="secondary_dark">@color/green_700</color>
+
+    <color name="error">@color/red_500</color>
+    <color name="error_dark">@color/red_700</color>
+
+    <color name="background">@color/blue_soft</color>
+    <color name="surface">@color/gray_100</color>
+
+    <color name="text_primary">@color/gray_900</color>
+    <color name="text_secondary">@color/gray_700</color>
+
+    <color name="divider">@color/gray_300</color>
+
+    <color name="disabled">@color/gray_500</color>
+
+    <!-- Chips -->
+    <color name="chip_selected">@color/primary</color>
+    <color name="chip_unselected">@color/blue_soft</color>
+    <color name="chip_text_selected">@color/white</color>
+    <color name="chip_text_unselected">@color/text_primary</color>
+
+</resources>

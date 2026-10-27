@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Texto del chip seleccionado -->
+    <item
+        android:color="@color/chip_text_selected"
+        android:state_checked="true"/>
+
+    <!-- Texto del chip no seleccionado -->
+    <item
+        android:color="@color/chip_text_unselected"/>
+
+</selector>

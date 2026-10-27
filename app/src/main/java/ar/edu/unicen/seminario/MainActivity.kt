@@ -1,0 +1,91 @@
+package ar.edu.unicen.seminario
+
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import android.widget.TextView
+import com.google.android.material.chip.Chip
+
+/**
+ * MainActivity es la pantalla principal de la aplicación.
+ *
+ * Aquí se inicializa la interfaz y se configuran los márgenes
+ * para que la vista se adapte a las barras del sistema.
+ *
+ * @constructor Crea una actividad principal.
+ */
+class MainActivity : AppCompatActivity() {
+
+    /**
+     * Método que se ejecuta al crear la actividad.
+     *
+     * @param savedInstanceState Estado guardado de la actividad,
+     *                           útil para restaurar datos tras rotaciones.
+     */
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Inicializa la actividad.
+        // Este método se ejecuta al abrir la pantalla.
+        super.onCreate(savedInstanceState)
+
+        // Configura la pantalla para utilizar todo el espacio disponible,
+        // incluyendo las áreas cercanas a las barras del sistema.
+        enableEdgeToEdge()
+
+        // Asocia esta actividad con el archivo activity_main.xml.
+        setContentView(R.layout.activity_main)
+
+        // =====================================================
+        // REFERENCIAS A LOS COMPONENTES DE LA INTERFAZ
+        // =====================================================
+
+        // Título que indica la categoría de películas seleccionada.
+        val tvTitulo = findViewById<TextView>(R.id.tvTituloPeliculas)
+
+        // Chips utilizados para seleccionar el tipo de películas.
+        val chipPopulares = findViewById<Chip>(R.id.chipPopulares)
+        val chipTendencias = findViewById<Chip>(R.id.chipTendencias)
+        val chipEstrenos = findViewById<Chip>(R.id.chipEstrenos)
+
+        // =====================================================
+        // EVENTOS DE LOS CHIPS
+        // =====================================================
+
+        // Al pulsar "Populares" se actualiza el título.
+        chipPopulares.setOnClickListener {
+            tvTitulo.text = getString(R.string.popular_movies)
+        }
+
+        // Al pulsar "Tendencias" se actualiza el título.
+        chipTendencias.setOnClickListener {
+            tvTitulo.text = getString(R.string.trending_movies)
+        }
+
+        // Al pulsar "Estrenos" se actualiza el título.
+        chipEstrenos.setOnClickListener {
+            tvTitulo.text = getString(R.string.upcoming_movies)
+        }
+
+        // =====================================================
+        // AJUSTE DE MÁRGENES DEL SISTEMA
+        // =====================================================
+
+        // Adapta la interfaz a las barras superior e inferior
+        // del dispositivo para evitar superposiciones.
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
+
+            // Devuelve los insets aplicados.
+            insets
+        }
+    }
+}

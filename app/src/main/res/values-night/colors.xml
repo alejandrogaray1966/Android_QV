@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Celeste -->
+    <color name="blue_soft">#90CAF9</color>
+
+    <!-- Azul -->
+    <color name="blue_300">#64B5F6</color>
+    <color name="blue_500">#2196F3</color>
+    <color name="blue_700">#1976D2</color>
+    <color name="blue_900">#0D47A1</color>
+
+    <!-- Verde -->
+    <color name="green_300">#81C784</color>
+    <color name="green_500">#66BB6A</color>
+    <color name="green_700">#43A047</color>
+    <color name="green_900">#2E7D32</color>
+
+    <!-- Rojo -->
+    <color name="red_300">#EF9A9A</color>
+    <color name="red_500">#EF5350</color>
+    <color name="red_700">#E53935</color>
+    <color name="red_900">#C62828</color>
+
+    <!-- Grises -->
+    <color name="gray_100">#1E1E1E</color>
+    <color name="gray_300">#424242</color>
+    <color name="gray_500">#757575</color>
+    <color name="gray_700">#BDBDBD</color>
+    <color name="gray_900">#FFFFFF</color>
+
+    <!-- Básicos -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Roles de la Aplicación -->
+
+    <color name="primary">@color/blue_900</color>
+    <color name="primary_dark">@color/black</color>
+
+    <color name="secondary">@color/green_500</color>
+    <color name="secondary_dark">@color/green_700</color>
+
+    <color name="error">@color/red_500</color>
+    <color name="error_dark">@color/red_700</color>
+
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+
+    <color name="text_primary">@color/gray_900</color>
+    <color name="text_secondary">@color/gray_700</color>
+
+    <color name="divider">@color/gray_300</color>
+
+    <color name="disabled">@color/gray_500</color>
+
+    <!-- Chips -->
+
+    <color name="chip_selected">@color/blue_700</color>
+    <color name="chip_unselected">@color/gray_300</color>
+    <color name="chip_text_selected">@color/white</color>
+    <color name="chip_text_unselected">@color/gray_900</color>
+
+</resources>

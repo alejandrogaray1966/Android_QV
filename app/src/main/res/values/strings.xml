@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Aplicación -->
+    <string name="app_name">QV</string>
+
+    <!-- Header -->
+    <string name="home_title">¿Qué Vemos?</string>
+    <string name="logo_description">Logo de la Aplicación</string>
+    <string name="menu_description">Menú</string>
+
+    <!-- Chips -->
+    <string name="popular">Populares</string>
+    <string name="trending">Tendencias</string>
+    <string name="upcoming">Estrenos</string>
+
+    <!-- Buscador -->
+    <string name="popular_movies">Lista de películas populares</string>
+    <string name="trending_movies">Tendencia en la última semana</string>
+    <string name="upcoming_movies">Próximos estrenos</string>
+    <string name="search_movie">Buscar película …</string>
+
+    <!-- Carrousel -->
+    <string name="movie_carousel">Cargando películas …</string>
+    <string name="coming_soon">Próximamente</string>
+
+    <!-- Footer -->
+    <string name="footer_text">© Seminario de Android 2026</string>
+
+</resources>
