@@ -8,6 +8,12 @@ import androidx.core.view.WindowInsetsCompat
 import android.widget.TextView
 import com.google.android.material.chip.Chip
 
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+import ar.edu.unicen.seminario.adapter.MovieAdapter
+import ar.edu.unicen.seminario.model.Movie
+
 /**
  * MainActivity es la pantalla principal de la aplicación.
  *
@@ -48,6 +54,26 @@ class MainActivity : AppCompatActivity() {
         val chipPopulares = findViewById<Chip>(R.id.chipPopulares)
         val chipTendencias = findViewById<Chip>(R.id.chipTendencias)
         val chipEstrenos = findViewById<Chip>(R.id.chipEstrenos)
+
+        // =====================================================
+        // DATOS MOCK
+        // =====================================================
+        val movies = listOf(
+            Movie("Deadpool", ""),
+            Movie("Dune", ""),
+            Movie("Gladiator II", ""),
+            Movie("The Batman", "")
+        )
+
+        // =====================================================
+        // RECYCLERVIEW
+        // =====================================================
+
+        val recyclerView = findViewById<RecyclerView>(R.id.rvMovies)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        recyclerView.adapter = MovieAdapter(movies)
 
         // =====================================================
         // EVENTOS DE LOS CHIPS
