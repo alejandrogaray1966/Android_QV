@@ -24,6 +24,11 @@
     <string name="movie_carousel">Cargando películas …</string>
     <string name="coming_soon">Próximamente</string>
 
+    <!-- Error -->
+    <string name="icono_loading_movies">⚠</string>
+    <string name="error_loading_movies">No se pudieron cargar las películas</string>
+    <string name="error_try_again">Inténtelo nuevamente más tarde</string>
+
     <!-- Footer -->
     <string name="footer_text">© Seminario de Android 2026</string>
 

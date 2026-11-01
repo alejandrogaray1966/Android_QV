@@ -18,11 +18,16 @@
     <string name="popular_movies">List of Popular Movies</string>
     <string name="trending_movies">Trending in the Last Week</string>
     <string name="upcoming_movies">Upcoming Releases</string>
-    <string name="search_movie">Search movie...</string>
+    <string name="search_movie">Search movie …</string>
 
     <!-- Carousel -->
-    <string name="movie_carousel">Loading movies...</string>
+    <string name="movie_carousel">Loading movies …</string>
     <string name="coming_soon">Coming Soon</string>
+
+    <!-- Error -->
+    <string name="icono_loading_movies">⚠</string>
+    <string name="error_loading_movies">Unable to load movies</string>
+    <string name="error_try_again">Please try again later</string>
 
     <!-- Footer -->
     <string name="footer_text">© Android Seminar 2026</string>

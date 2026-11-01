@@ -7,12 +7,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.TextView
 import com.google.android.material.chip.Chip
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import ar.edu.unicen.seminario.adapter.MovieAdapter
 import ar.edu.unicen.seminario.model.Movie
+import android.view.View
+import android.widget.LinearLayout
 
 /**
  * MainActivity es la pantalla principal de la aplicación.
@@ -30,6 +30,16 @@ class MainActivity : AppCompatActivity() {
      * @param savedInstanceState Estado guardado de la actividad,
      *                           útil para restaurar datos tras rotaciones.
      */
+
+    // =====================================================
+    // COMPONENTES DE LA UI
+    // =====================================================
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutLoading: LinearLayout
+    private lateinit var layoutError: LinearLayout
+    private lateinit var movieAdapter: MovieAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // Inicializa la actividad.
@@ -37,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Configura la pantalla para utilizar todo el espacio disponible,
-        // incluyendo las áreas cercanas a las barras del sistema.
+        // Include las áreas cercanas a las barras del sistema.
         enableEdgeToEdge()
 
         // Asocia esta actividad con el archivo activity_main.xml.
@@ -69,11 +79,12 @@ class MainActivity : AppCompatActivity() {
         // RECYCLERVIEW
         // =====================================================
 
-        val recyclerView = findViewById<RecyclerView>(R.id.rvMovies)
-
+        layoutLoading = findViewById(R.id.layoutLoading)
+        layoutError = findViewById(R.id.layoutError)
+        recyclerView = findViewById(R.id.rvMovies)
+        movieAdapter = MovieAdapter(movies)
         recyclerView.layoutManager = LinearLayoutManager(this)
-
-        recyclerView.adapter = MovieAdapter(movies)
+        recyclerView.adapter = movieAdapter
 
         // =====================================================
         // EVENTOS DE LOS CHIPS
@@ -113,5 +124,39 @@ class MainActivity : AppCompatActivity() {
             // Devuelve los insets aplicados.
             insets
         }
+
+        // Test View
+        // showLoading()
+        showContent()
+        // showError()
+
     }
+
+    /**
+     * Muestra el estado de carga.
+     */
+    private fun showLoading() {
+        layoutLoading.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
+        layoutError.visibility = View.GONE
+    }
+
+    /**
+     * Muestra el contenido.
+     */
+    private fun showContent() {
+        layoutLoading.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+        layoutError.visibility = View.GONE
+    }
+
+    /**
+     * Muestra el error.
+     */
+    private fun showError() {
+        layoutLoading.visibility = View.GONE
+        recyclerView.visibility = View.GONE
+        layoutError.visibility = View.VISIBLE
+    }
+
 }

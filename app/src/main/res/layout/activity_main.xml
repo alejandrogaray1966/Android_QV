@@ -187,13 +187,95 @@
             app:layout_constraintTop_toBottomOf="@id/tvTituloPeliculas" />
 
         <!-- ================================================= -->
+        <!-- LOADING                                           -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/layoutLoading"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/etBuscar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!--
+                Indicator de carga.
+                Será visible mientras se descargan las películas.
+            -->
+            <ProgressBar
+                android:id="@+id/progressLoading"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+                <!--
+                    Texto mostrado durante la carga.
+                -->
+                <TextView
+                    android:id="@+id/tvLoading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/movie_carousel"
+                    android:textColor="@color/secondary"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"/>
+
+
+        </LinearLayout>
+
+        <!-- ================================================= -->
+        <!-- ERROR                                             -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/layoutError"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/etBuscar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icono_loading_movies"
+                android:textColor="@color/error"
+                android:textSize="48sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/error_loading_movies"
+                android:textColor="@color/error"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/error_try_again"
+                android:textColor="@color/error" />
+
+        </LinearLayout>
+
+        <!-- ================================================= -->
         <!-- CARROUSEL DE PELÍCULAS                            -->
         <!-- ================================================= -->
 
         <!--
             Ocupa automáticamente todo el espacio disponible
-            entre el buscador y el final del Body gracias
-            a las restricciones de ConstraintLayout.
+            entre el buscador y el final del Body
+            gracias a las restricciones de ConstraintLayout.
 
             Más adelante se asociará a un Adapter para
             mostrar películas reales.
@@ -205,6 +287,7 @@
             android:clipToPadding="false"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/etBuscar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
