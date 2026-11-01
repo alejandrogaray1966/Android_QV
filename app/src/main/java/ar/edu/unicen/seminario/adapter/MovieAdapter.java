@@ -5,24 +5,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
-
 import ar.edu.unicen.seminario.R;
 import ar.edu.unicen.seminario.model.Movie;
+import com.bumptech.glide.Glide;
 
 /**
  * Adapter encargado de conectar los datos con el RecyclerView.
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private final List<Movie> movies;
+    private List<Movie> movies;
 
     public MovieAdapter(List<Movie> movies) {
         this.movies = movies;
+    }
+
+    public void updateMovies(List<Movie> movies) {
+        this.movies = movies;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -46,13 +49,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         holder.tvMovieTitle.setText(movie.getTitle());
 
-        /*
-         * Más adelante:
-         *
-         * Glide.with(holder.itemView.getContext())
-         *      .load(movie.getImageUrl())
-         *      .into(holder.imgMovie);
-         */
+        String imageUrl =
+                "https://image.tmdb.org/t/p/w500"
+                        + movie.getImageUrl();
+
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .into(holder.imgMovie);
     }
 
     @Override

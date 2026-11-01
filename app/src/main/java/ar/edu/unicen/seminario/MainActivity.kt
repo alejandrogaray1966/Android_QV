@@ -13,6 +13,11 @@ import ar.edu.unicen.seminario.adapter.MovieAdapter
 import ar.edu.unicen.seminario.model.Movie
 import android.view.View
 import android.widget.LinearLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import ar.edu.unicen.seminario.network.RetrofitClient
+import ar.edu.unicen.seminario.network.dto.TmdbResponse
 
 /**
  * MainActivity es la pantalla principal de la aplicación.
@@ -26,9 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     /**
      * Método que se ejecuta al crear la actividad.
-     *
-     * @param savedInstanceState Estado guardado de la actividad,
-     *                           útil para restaurar datos tras rotaciones.
      */
 
     // =====================================================
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layoutLoading: LinearLayout
     private lateinit var layoutError: LinearLayout
     private lateinit var movieAdapter: MovieAdapter
+    private val token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOWUyYzIwNDRhNWU1MzBkN2M4N2ExY2ZlYzQ5ZDlhMCIsIm5iZiI6MTc5MzA3NDMxMS40NjEsInN1YiI6IjZhZTAyNDg3NWZmNTYwOGMyMmVlYWM4MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b4X9fTOJ5EIH01AoY2XxaPAGvSE4NkXIVOwXTYUutCs"
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -125,10 +128,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        // Test View
+        /**
+         *  Test View
+         */
         // showLoading()
-        showContent()
+        // showContent()
         // showError()
+        testTmdbConnection()
 
     }
 
@@ -157,6 +163,46 @@ class MainActivity : AppCompatActivity() {
         layoutLoading.visibility = View.GONE
         recyclerView.visibility = View.GONE
         layoutError.visibility = View.VISIBLE
+    }
+
+    /**
+     * Function of test.
+     */
+    private fun testTmdbConnection() {
+        showLoading()
+        RetrofitClient.api
+            .getPopularMovies(token)
+            .enqueue(object : Callback<TmdbResponse> {
+                override fun onResponse(
+                    call: Call<TmdbResponse>,
+                    response: Response<TmdbResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val tmdbMovies =
+                            response.body()?.results ?: emptyList()
+                        val movies = tmdbMovies.map {
+                            Movie(
+                                it.title,
+                                it.posterPath
+                            )
+                        }
+                        movieAdapter.updateMovies(movies)
+                        showContent()
+                    } else {
+                        println("ERROR CODE: ${response.code()}")
+                        println("ERROR BODY: ${response.errorBody()?.string()}")
+                        showError()
+                    }
+                }
+                override fun onFailure(
+                    call: Call<TmdbResponse>,
+                    t: Throwable
+                ) {
+                    println("FAILURE: ${t.message}")
+                    t.printStackTrace()
+                    showError()
+                }
+            })
     }
 
 }
