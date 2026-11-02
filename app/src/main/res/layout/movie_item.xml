@@ -4,7 +4,7 @@
     Card individual de una película.
 
     Será reutilizada por el RecyclerView para mostrar
-    cada elemento de la lista.
+    cada elemento de la list.
 
     Estructura:
 
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="Título de película"
+            android:text="@string/movie_title"
             android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold" />

@@ -18,6 +18,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import ar.edu.unicen.seminario.network.RetrofitClient
 import ar.edu.unicen.seminario.network.dto.TmdbResponse
+import android.widget.EditText
+import android.text.Editable
+import android.text.TextWatcher
 
 /**
  * MainActivity es la pantalla principal de la aplicación.
@@ -42,10 +45,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layoutError: LinearLayout
     private lateinit var movieAdapter: MovieAdapter
     private val token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOWUyYzIwNDRhNWU1MzBkN2M4N2ExY2ZlYzQ5ZDlhMCIsIm5iZiI6MTc5MzA3NDMxMS40NjEsInN1YiI6IjZhZTAyNDg3NWZmNTYwOGMyMmVlYWM4MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b4X9fTOJ5EIH01AoY2XxaPAGvSE4NkXIVOwXTYUutCs"
+    private var allMovies = mutableListOf<Movie>()
 
+    // Inicializa la actividad.
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // Inicializa la actividad.
         // Este método se ejecuta al abrir la pantalla.
         super.onCreate(savedInstanceState)
 
@@ -67,6 +71,9 @@ class MainActivity : AppCompatActivity() {
         val chipPopulares = findViewById<Chip>(R.id.chipPopulares)
         val chipTendencias = findViewById<Chip>(R.id.chipTendencias)
         val chipEstrenos = findViewById<Chip>(R.id.chipEstrenos)
+
+        // Variable que referencia al EditText.
+        val etBuscar = findViewById<EditText>(R.id.etBuscar)
 
         // =====================================================
         // DATOS MOCK
@@ -90,22 +97,60 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = movieAdapter
 
         // =====================================================
+        // EDITTEXT
+        // =====================================================
+        etBuscar.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                    val texto = s.toString()
+                    val filteredMovies =
+                        allMovies.filter {
+                            it.title.contains(
+                                texto,
+                                ignoreCase = true
+                            )
+                        }
+                    movieAdapter.updateMovies(filteredMovies)
+                }
+                override fun afterTextChanged(
+                    s: Editable?
+                ) {
+                }
+            }
+        )
+
+        // =====================================================
         // EVENTOS DE LOS CHIPS
         // =====================================================
 
-        // Al pulsar "Populares" se actualiza el título.
         chipPopulares.setOnClickListener {
+            etBuscar.setText("")
             tvTitulo.text = getString(R.string.popular_movies)
+            loadPopularMovies()
         }
 
-        // Al pulsar "Tendencias" se actualiza el título.
         chipTendencias.setOnClickListener {
+            etBuscar.setText("")
             tvTitulo.text = getString(R.string.trending_movies)
+            loadTrendingMovies()
         }
 
-        // Al pulsar "Estrenos" se actualiza el título.
         chipEstrenos.setOnClickListener {
+            etBuscar.setText("")
             tvTitulo.text = getString(R.string.upcoming_movies)
+            loadUpcomingMovies()
         }
 
         // =====================================================
@@ -134,7 +179,7 @@ class MainActivity : AppCompatActivity() {
         // showLoading()
         // showContent()
         // showError()
-        testTmdbConnection()
+        loadPopularMovies()
 
     }
 
@@ -166,43 +211,74 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
+     * Function que llama al GET populares.
+     */
+    private fun loadPopularMovies() {
+        loadMovies(
+            RetrofitClient.api.getPopularMovies(token)
+        )
+    }
+
+    /**
+     * Function que llama al GET Tendencias.
+     */
+    private fun loadTrendingMovies() {
+        loadMovies(
+            RetrofitClient.api.getTrendingMovies(token)
+        )
+    }
+
+    /**
+     * Function que llama al GET Estrenos.
+     */
+    private fun loadUpcomingMovies() {
+        loadMovies(
+            RetrofitClient.api.getUpcomingMovies(token)
+        )
+    }
+
+    /**
      * Function of test.
      */
-    private fun testTmdbConnection() {
+    private fun loadMovies(
+        call: Call<TmdbResponse>
+    ) {
         showLoading()
-        RetrofitClient.api
-            .getPopularMovies(token)
-            .enqueue(object : Callback<TmdbResponse> {
-                override fun onResponse(
-                    call: Call<TmdbResponse>,
-                    response: Response<TmdbResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        val tmdbMovies =
-                            response.body()?.results ?: emptyList()
-                        val movies = tmdbMovies.map {
-                            Movie(
-                                it.title,
-                                it.posterPath
-                            )
-                        }
-                        movieAdapter.updateMovies(movies)
-                        showContent()
-                    } else {
-                        println("ERROR CODE: ${response.code()}")
-                        println("ERROR BODY: ${response.errorBody()?.string()}")
-                        showError()
+        call.enqueue(object : Callback<TmdbResponse> {
+
+            override fun onResponse(
+                call: Call<TmdbResponse>,
+                response: Response<TmdbResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val tmdbMovies =
+                        response.body()?.results ?: emptyList()
+                    val movies = tmdbMovies.map {
+                        Movie(
+                            it.title,
+                            it.posterPath
+                        )
                     }
-                }
-                override fun onFailure(
-                    call: Call<TmdbResponse>,
-                    t: Throwable
-                ) {
-                    println("FAILURE: ${t.message}")
-                    t.printStackTrace()
+                    allMovies.clear()
+                    allMovies.addAll(movies)
+                    movieAdapter.updateMovies(movies)
+                    showContent()
+                } else {
+                    println("ERROR CODE: ${response.code()}")
+                    println("ERROR BODY: ${response.errorBody()?.string()}")
                     showError()
                 }
-            })
+            }
+
+            override fun onFailure(
+                call: Call<TmdbResponse>,
+                t: Throwable
+            ) {
+                println("FAILURE: ${t.message}")
+                t.printStackTrace()
+                showError()
+            }
+        })
     }
 
 }

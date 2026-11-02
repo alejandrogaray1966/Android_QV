@@ -12,4 +12,14 @@ interface TmdbApiService {
         @Header("Authorization") authorization: String
     ): Call<TmdbResponse>
 
+    @GET("trending/movie/week")
+    fun getTrendingMovies(
+        @Header("Authorization") authorization: String
+    ): Call<TmdbResponse>
+
+    @GET("movie/upcoming")
+    fun getUpcomingMovies(
+        @Header("Authorization") authorization: String
+    ): Call<TmdbResponse>
+
 }

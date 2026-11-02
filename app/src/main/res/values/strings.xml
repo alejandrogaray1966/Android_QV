@@ -23,6 +23,7 @@
     <!-- Carrousel -->
     <string name="movie_carousel">Cargando películas …</string>
     <string name="coming_soon">Próximamente</string>
+    <string name="movie_title">Título de película</string>
 
     <!-- Error -->
     <string name="icono_loading_movies">⚠</string>
