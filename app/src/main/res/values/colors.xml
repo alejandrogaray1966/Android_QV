@@ -54,6 +54,10 @@
 
     <color name="disabled">@color/gray_500</color>
 
+    <!-- Colores para el campo EDIT -->
+    <color name="search_text">#212121</color>
+    <color name="search_hint">#616161</color>
+
     <!-- Chips -->
     <color name="chip_selected">@color/primary</color>
     <color name="chip_unselected">@color/blue_soft</color>

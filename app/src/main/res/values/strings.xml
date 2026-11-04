@@ -16,9 +16,9 @@
 
     <!-- Buscador -->
     <string name="popular_movies">Lista de películas populares</string>
-    <string name="trending_movies">Tendencia en la última semana</string>
+    <string name="trending_movies">Tendencias en la última semana</string>
     <string name="upcoming_movies">Próximos estrenos</string>
-    <string name="search_movie">Buscar película …</string>
+    <string name="search_movie">🔍 Buscar película …</string>
 
     <!-- Carrousel -->
     <string name="movie_carousel">Cargando películas …</string>
@@ -29,6 +29,9 @@
     <string name="icono_loading_movies">⚠</string>
     <string name="error_loading_movies">No se pudieron cargar las películas</string>
     <string name="error_try_again">Inténtelo nuevamente más tarde</string>
+    <string name="icono_no_results">🔍</string>
+    <string name="error_not_found_movie">No se encontraron películas</string>
+    <string name="no_movies_found">No se encontraron resultados para “%1$s”</string>
 
     <!-- Footer -->
     <string name="footer_text">© Seminario de Android 2026</string>

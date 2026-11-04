@@ -33,7 +33,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/primary"
+        android:background="@color/primary_dark"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
@@ -180,11 +180,47 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:padding="12dp"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary"
+            android:textColor="@color/search_text"
+            android:textColorHint="@color/search_hint"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTituloPeliculas" />
+
+        <!-- ================================================= -->
+        <!-- NOT FOUND MOVIE                                   -->
+        <!-- ================================================= -->
+
+        <LinearLayout
+            android:id="@+id/layoutNoResults"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/etBuscar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/icono_no_results"
+                android:textSize="48sp" />
+
+            <TextView
+                android:id="@+id/tvNoResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/error_not_found_movie"
+                android:textColor="@color/error"
+                android:textStyle="italic"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
 
         <!-- ================================================= -->
         <!-- LOADING                                           -->
@@ -223,7 +259,6 @@
                     android:textColor="@color/secondary"
                     android:textSize="18sp"
                     android:layout_marginTop="16dp"/>
-
 
         </LinearLayout>
 
@@ -264,6 +299,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/error_try_again"
+                android:textColor="@color/error" />
+
+            <TextView
+                android:id="@+id/tvErrorDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textColor="@color/error" />
 
         </LinearLayout>

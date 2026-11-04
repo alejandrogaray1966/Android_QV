@@ -44,8 +44,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layoutLoading: LinearLayout
     private lateinit var layoutError: LinearLayout
     private lateinit var movieAdapter: MovieAdapter
+
+    //private val token = "Bearer TOKEN_INVALIDO"
     private val token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOWUyYzIwNDRhNWU1MzBkN2M4N2ExY2ZlYzQ5ZDlhMCIsIm5iZiI6MTc5MzA3NDMxMS40NjEsInN1YiI6IjZhZTAyNDg3NWZmNTYwOGMyMmVlYWM4MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b4X9fTOJ5EIH01AoY2XxaPAGvSE4NkXIVOwXTYUutCs"
     private var allMovies = mutableListOf<Movie>()
+
+    // Variable que referencia al CODE de Error en el GET.
+    private lateinit var tvErrorDetail: TextView
+
+    // Variables que referencia al Error de not found movies.
+    private lateinit var layoutNoResults: LinearLayout
+    private lateinit var tvNoResults: TextView
 
     // Inicializa la actividad.
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +83,14 @@ class MainActivity : AppCompatActivity() {
 
         // Variable que referencia al EditText.
         val etBuscar = findViewById<EditText>(R.id.etBuscar)
+        etBuscar.clearFocus()
+
+        // Variable que referencia al CODE de Error en el GET.
+        tvErrorDetail = findViewById(R.id.tvErrorDetail)
+
+        // Variables que referencia al Error de not found movies.
+        layoutNoResults = findViewById(R.id.layoutNoResults)
+        tvNoResults = findViewById(R.id.tvNoResults)
 
         // =====================================================
         // DATOS MOCK
@@ -97,8 +114,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = movieAdapter
 
         // =====================================================
-        // EDITTEXT
+        // BÚSQUEDA Y FILTRADO DE PELÍCULAS
         // =====================================================
+
         etBuscar.addTextChangedListener(
             object : TextWatcher {
                 override fun beforeTextChanged(
@@ -123,6 +141,19 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     movieAdapter.updateMovies(filteredMovies)
+                    if (
+                        filteredMovies.isEmpty() && texto.isNotBlank()
+                    ) {
+                        recyclerView.visibility = View.GONE
+                        tvNoResults.text = getString(
+                                R.string.no_movies_found,
+                                texto
+                            )
+                        layoutNoResults.visibility = View.VISIBLE
+                    } else {
+                        recyclerView.visibility = View.VISIBLE
+                        layoutNoResults.visibility = View.GONE
+                    }
                 }
                 override fun afterTextChanged(
                     s: Editable?
@@ -137,18 +168,21 @@ class MainActivity : AppCompatActivity() {
 
         chipPopulares.setOnClickListener {
             etBuscar.setText("")
+            etBuscar.clearFocus()
             tvTitulo.text = getString(R.string.popular_movies)
             loadPopularMovies()
         }
 
         chipTendencias.setOnClickListener {
             etBuscar.setText("")
+            etBuscar.clearFocus()
             tvTitulo.text = getString(R.string.trending_movies)
             loadTrendingMovies()
         }
 
         chipEstrenos.setOnClickListener {
             etBuscar.setText("")
+            etBuscar.clearFocus()
             tvTitulo.text = getString(R.string.upcoming_movies)
             loadUpcomingMovies()
         }
@@ -161,14 +195,12 @@ class MainActivity : AppCompatActivity() {
         // del dispositivo para evitar superposiciones.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
             v.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
-
             // Devuelve los insets aplicados.
             insets
         }
@@ -204,10 +236,11 @@ class MainActivity : AppCompatActivity() {
     /**
      * Muestra el error.
      */
-    private fun showError() {
+    private fun showError(message: String) {
         layoutLoading.visibility = View.GONE
         recyclerView.visibility = View.GONE
         layoutError.visibility = View.VISIBLE
+        tvErrorDetail.text = message
     }
 
     /**
@@ -266,7 +299,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     println("ERROR CODE: ${response.code()}")
                     println("ERROR BODY: ${response.errorBody()?.string()}")
-                    showError()
+                    when (response.code()) {
+                        401 -> showError("Error 401 - No autorizado")
+                        404 -> showError("Error 404 - Recurso no encontrado")
+                        500 -> showError("Error 500 - Error interno del servidor")
+                        else -> showError("Error HTTP ${response.code()}")
+                    }
                 }
             }
 
@@ -276,7 +314,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 println("FAILURE: ${t.message}")
                 t.printStackTrace()
-                showError()
+                showError("Sin conexión a Internet")
             }
         })
     }

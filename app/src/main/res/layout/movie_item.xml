@@ -30,7 +30,7 @@
         <!--
             Poster de la película.
 
-            Por ahora utilizaremos una imagen de prueba.
+            Por ahora utilizaremos una imagen de test.
             Más adelante se cargará desde Internet
             mediante Glide o Picasso.
         -->
