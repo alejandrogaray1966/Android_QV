@@ -11,6 +11,9 @@ import java.util.List;
 import ar.edu.unicen.seminario.R;
 import ar.edu.unicen.seminario.model.Movie;
 import com.bumptech.glide.Glide;
+import android.content.Intent;
+import ar.edu.unicen.seminario.MovieDetailActivity;
+import ar.edu.unicen.seminario.network.TmdbConfig;
 
 /**
  * Adapter encargado de conectar los datos con el RecyclerView.
@@ -50,12 +53,22 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         holder.tvMovieTitle.setText(movie.getTitle());
 
         String imageUrl =
-                "https://image.tmdb.org/t/p/w500"
+                TmdbConfig.IMAGE_BASE_URL
                         + movie.getImageUrl();
 
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)
                 .into(holder.imgMovie);
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    holder.itemView.getContext(),
+                    MovieDetailActivity.class
+            );
+            intent.putExtra("movie_id", movie.getId());
+            holder.itemView.getContext().startActivity(intent);
+        });
+
     }
 
     @Override

@@ -7,13 +7,10 @@ class RetrofitClient {
 
     companion object {
 
-        private const val BASE_URL =
-            "https://api.themoviedb.org/3/"
-
         val api: TmdbApiService by lazy {
 
             Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(TmdbConfig.BASE_URL)
                 .addConverterFactory(
                     GsonConverterFactory.create()
                 )

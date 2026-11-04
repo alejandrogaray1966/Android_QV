@@ -21,6 +21,7 @@ import ar.edu.unicen.seminario.network.dto.TmdbResponse
 import android.widget.EditText
 import android.text.Editable
 import android.text.TextWatcher
+import ar.edu.unicen.seminario.network.TmdbConfig
 
 /**
  * MainActivity es la pantalla principal de la aplicación.
@@ -44,9 +45,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layoutLoading: LinearLayout
     private lateinit var layoutError: LinearLayout
     private lateinit var movieAdapter: MovieAdapter
-
-    //private val token = "Bearer TOKEN_INVALIDO"
-    private val token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlOWUyYzIwNDRhNWU1MzBkN2M4N2ExY2ZlYzQ5ZDlhMCIsIm5iZiI6MTc5MzA3NDMxMS40NjEsInN1YiI6IjZhZTAyNDg3NWZmNTYwOGMyMmVlYWM4MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.b4X9fTOJ5EIH01AoY2XxaPAGvSE4NkXIVOwXTYUutCs"
     private var allMovies = mutableListOf<Movie>()
 
     // Variable que referencia al CODE de Error en el GET.
@@ -96,10 +94,10 @@ class MainActivity : AppCompatActivity() {
         // DATOS MOCK
         // =====================================================
         val movies = listOf(
-            Movie("Deadpool", ""),
-            Movie("Dune", ""),
-            Movie("Gladiator II", ""),
-            Movie("The Batman", "")
+            Movie(1, "Deadpool", ""),
+            Movie(2, "Dune", ""),
+            Movie(3, "Gladiator II", ""),
+            Movie(4, "The Batman", "")
         )
 
         // =====================================================
@@ -248,7 +246,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadPopularMovies() {
         loadMovies(
-            RetrofitClient.api.getPopularMovies(token)
+            RetrofitClient.api.getPopularMovies(TmdbConfig.TOKEN)
         )
     }
 
@@ -257,7 +255,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadTrendingMovies() {
         loadMovies(
-            RetrofitClient.api.getTrendingMovies(token)
+            RetrofitClient.api.getTrendingMovies(TmdbConfig.TOKEN)
         )
     }
 
@@ -266,7 +264,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadUpcomingMovies() {
         loadMovies(
-            RetrofitClient.api.getUpcomingMovies(token)
+            RetrofitClient.api.getUpcomingMovies(TmdbConfig.TOKEN)
         )
     }
 
@@ -288,6 +286,7 @@ class MainActivity : AppCompatActivity() {
                         response.body()?.results ?: emptyList()
                     val movies = tmdbMovies.map {
                         Movie(
+                            it.id,
                             it.title,
                             it.posterPath
                         )

@@ -8,19 +8,25 @@ package ar.edu.unicen.seminario.model;
 
 public class Movie {
 
+    private final int id;
     private final String title;
     private final String imageUrl;
 
-    public Movie(String title, String imageUrl) {
+    public Movie(int id, String title, String imageUrl) {
+        this.id = id;
         this.title = title;
         this.imageUrl = imageUrl;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public String getImageUrl() {
-        return this.imageUrl;
+        return imageUrl;
     }
 }

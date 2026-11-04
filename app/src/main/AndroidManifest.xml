@@ -1,16 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Indica que el archivo está escrito en XML y usa codificación UTF‑8. -->
-
+<?xml version="1.0" encoding="utf-8"?><!-- Indica que el archivo está escrito en XML y usa codificación UTF‑8. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Raíz del manifiesto: aquí se definen los componentes globales de la app -->
-    <!-- También se pueden declarar permisos, por ejemplo:
-         <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!--
+         También se pueden declarar permisos, por ejemplo:
+         <uses-permission android:name="android.permission.INTERNET" />
+    -->
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,32 +23,50 @@
         <!-- Aquí se declaran todas las pantallas (activities), services y receptors -->
         <!-- Cada <activity> representa una pantalla o vista dentro de la app -->
 
+
         <!-- Actividad principal de la app -->
-        <!-- android:exported="true" Permite que Android pueda
-            iniciar esta Activity desde el launcher del sistema -->
+        <!--
+             android:exported="true" Permite que Android pueda
+            iniciar esta Activity desde el launcher del sistema
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-            <!-- Redimensiona la interfaz cuando aparece el teclado virtual
-            para evitar que los controles queden ocultos -->
+
+            <!--
+            Redimensiona la interfaz cuando aparece el teclado virtual
+            para evitar que los controles queden ocultos
+            -->
+
 
             <!-- Filtro de intención: define cómo se lanza esta actividad -->
             <intent-filter>
-                <!-- Acción principal que define esta Activity
-                    como punto de entrada de la aplicación -->
+
+                <!--
+                     Acción principal que define esta Activity
+                    como punto de entrada de la aplicación
+                -->
                 <action android:name="android.intent.action.MAIN" />
                 <!-- LAUNCHER: hace que aparezca en el menú del dispositivo -->
-                <!-- Categoría que permite que la aplicación aparezca
-                    en el lanzador de Aplicaciones del sistema -->
+                <!--
+                     Categoría que permite que la aplicación aparezca
+                    en el lanzador de Aplicaciones del sistema
+                -->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
-        <!-- Aquí podrías agregar más actividades, por ejemplo:
+        <!--
+        Aquí podrías agregar más actividades, por ejemplo:
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ProfileActivity" /> -->
+        <activity android:name=".ProfileActivity" />
+        -->
+
+        <activity
+            android:name=".MovieDetailActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
     </application>
 
