@@ -24,6 +24,7 @@
     <string name="movie_carousel">Cargando películas …</string>
     <string name="coming_soon">Próximamente</string>
     <string name="movie_title">Título de película</string>
+    <string name="movie_poster">Póster de la película</string>
 
     <!-- Error -->
     <string name="icono_loading_movies">⚠</string>
@@ -32,6 +33,9 @@
     <string name="icono_no_results">🔍</string>
     <string name="error_not_found_movie">No se encontraron películas</string>
     <string name="no_movies_found">No se encontraron resultados para “%1$s”</string>
+
+    <!-- Volver -->
+    <string name="button_back">⬅ Volver</string>
 
     <!-- Footer -->
     <string name="footer_text">© Seminario de Android 2026</string>

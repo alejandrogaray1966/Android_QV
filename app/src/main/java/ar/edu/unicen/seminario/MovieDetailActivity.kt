@@ -13,6 +13,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ar.edu.unicen.seminario.network.TmdbConfig
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+
 
 class MovieDetailActivity : AppCompatActivity() {
 
@@ -31,9 +34,11 @@ class MovieDetailActivity : AppCompatActivity() {
          */
         val movieId = intent.getIntExtra("movie_id", -1)
 
-        val tvMovieId = findViewById<TextView>(R.id.tvMovieId)
-
-        tvMovieId.text = "ID recibido: $movieId"
+        val ivPoster = findViewById<ImageView>(R.id.ivPoster)
+        val tvTitle = findViewById<TextView>(R.id.tvTitle)
+        val tvOverview = findViewById<TextView>(R.id.tvOverview)
+        val tvRating = findViewById<TextView>(R.id.tvRating)
+        val tvGenres = findViewById<TextView>(R.id.tvGenres)
 
         /*
          * Cierra la Activity actual y regresa a la pantalla anterior.
@@ -69,11 +74,23 @@ class MovieDetailActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val movie = response.body()
-                    tvMovieId.text =
-                        "ID: ${movie?.id}\n\n${movie?.title}"
+                    movie?.let {
+                        Glide.with(this@MovieDetailActivity)
+                            .load(
+                                TmdbConfig.IMAGE_BASE_URL +
+                                        it.posterPath
+                            )
+                            .into(ivPoster)
+                        tvTitle.text = it.title
+                        tvOverview.text = it.overview
+                        tvRating.text = "⭐ %.1f".format(it.voteAverage)
+                        tvGenres.text = it.genres.joinToString(", ") { genre ->
+                            genre.name
+                        }
+                    }
                 } else {
-                    tvMovieId.text =
-                        "Error al obtener el detalle (${response.code()})"
+                    tvTitle.text = "Error"
+                    tvOverview.text = "No fue posible obtener los datos (${response.code()})"
                 }
             }
 
@@ -81,8 +98,8 @@ class MovieDetailActivity : AppCompatActivity() {
                 call: Call<MovieDetailResponse>,
                 t: Throwable
             ) {
-                tvMovieId.text =
-                    "Error: ${t.message}"
+                tvTitle.text = "Error"
+                tvOverview.text = t.message ?: "Error desconocido"
             }
         })
     }
