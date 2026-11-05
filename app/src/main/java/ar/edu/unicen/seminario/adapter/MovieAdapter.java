@@ -25,10 +25,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     public MovieAdapter(List<Movie> movies) {
         this.movies = movies;
     }
-
     public void updateMovies(List<Movie> movies) {
         this.movies = movies;
         notifyDataSetChanged();
+    }
+
+    public void addMovies(List<Movie> newMovies) {
+        int startPosition = movies.size();
+        movies.addAll(newMovies);
+        notifyItemRangeInserted(
+                startPosition,
+                newMovies.size()
+        );
     }
 
     @NonNull

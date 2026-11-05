@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layoutNoResults: LinearLayout
     private lateinit var tvNoResults: TextView
 
+    // Variable que referencia a la PAGE  and CATEGORY and LOADING oF PAGE.
+    private var currentPage = 1
+    private var currentCategory = "popular"
+    private var isLoadingPage = false
+
     // Inicializa la actividad.
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -93,12 +98,14 @@ class MainActivity : AppCompatActivity() {
         // =====================================================
         // DATOS MOCK
         // =====================================================
-        val movies = listOf(
+        /*
+        val movies = mutableListOf(
             Movie(1, "Deadpool", ""),
             Movie(2, "Dune", ""),
             Movie(3, "Gladiator II", ""),
             Movie(4, "The Batman", "")
         )
+        */
 
         // =====================================================
         // RECYCLERVIEW
@@ -107,9 +114,46 @@ class MainActivity : AppCompatActivity() {
         layoutLoading = findViewById(R.id.layoutLoading)
         layoutError = findViewById(R.id.layoutError)
         recyclerView = findViewById(R.id.rvMovies)
+        val movies = mutableListOf<Movie>()
         movieAdapter = MovieAdapter(movies)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = movieAdapter
+
+        recyclerView.addOnScrollListener(
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(
+                    recyclerView: RecyclerView,
+                    dx: Int,
+                    dy: Int
+                ) {
+                    super.onScrolled(
+                        recyclerView,
+                        dx,
+                        dy
+                    )
+                    if (etBuscar.text.toString().isNotBlank()) {
+                        return
+                    }
+                    val layoutManager =
+                        recyclerView.layoutManager as LinearLayoutManager
+                    val lastVisibleItem =
+                        layoutManager.findLastVisibleItemPosition()
+                    val totalItems =
+                        layoutManager.itemCount
+                    if (dy > 0 && lastVisibleItem >= totalItems - 5) {
+                        if (!isLoadingPage) {
+                            isLoadingPage = true
+                            currentPage++
+                            when (currentCategory) {
+                                "popular" -> loadPopularMovies()
+                                "trending" -> loadTrendingMovies()
+                                "upcoming" -> loadUpcomingMovies()
+                            }
+                        }
+                    }
+                }
+            }
+        )
 
         // =====================================================
         // BÚSQUEDA Y FILTRADO DE PELÍCULAS
@@ -165,6 +209,8 @@ class MainActivity : AppCompatActivity() {
         // =====================================================
 
         chipPopulares.setOnClickListener {
+            currentCategory = "popular"
+            resetMovies()
             etBuscar.setText("")
             etBuscar.clearFocus()
             tvTitulo.text = getString(R.string.popular_movies)
@@ -172,6 +218,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         chipTendencias.setOnClickListener {
+            currentCategory = "trending"
+            resetMovies()
             etBuscar.setText("")
             etBuscar.clearFocus()
             tvTitulo.text = getString(R.string.trending_movies)
@@ -179,6 +227,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         chipEstrenos.setOnClickListener {
+            currentCategory = "upcoming"
+            resetMovies()
             etBuscar.setText("")
             etBuscar.clearFocus()
             tvTitulo.text = getString(R.string.upcoming_movies)
@@ -208,9 +258,20 @@ class MainActivity : AppCompatActivity() {
          */
         // showLoading()
         // showContent()
-        // showError()
+        // showError("Error Test")
         loadPopularMovies()
 
+    }
+
+
+    /**
+     * Reset the movies when press on chip.
+     */
+    private fun resetMovies() {
+        currentPage = 1
+        allMovies.clear()
+        movieAdapter.updateMovies(emptyList())
+        recyclerView.scrollToPosition(0)
     }
 
     /**
@@ -246,7 +307,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadPopularMovies() {
         loadMovies(
-            RetrofitClient.api.getPopularMovies(TmdbConfig.TOKEN)
+            RetrofitClient.api.getPopularMovies(TmdbConfig.TOKEN, currentPage)
         )
     }
 
@@ -255,7 +316,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadTrendingMovies() {
         loadMovies(
-            RetrofitClient.api.getTrendingMovies(TmdbConfig.TOKEN)
+            RetrofitClient.api.getTrendingMovies(TmdbConfig.TOKEN, currentPage)
         )
     }
 
@@ -264,7 +325,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadUpcomingMovies() {
         loadMovies(
-            RetrofitClient.api.getUpcomingMovies(TmdbConfig.TOKEN)
+            RetrofitClient.api.getUpcomingMovies(TmdbConfig.TOKEN, currentPage)
         )
     }
 
@@ -281,6 +342,7 @@ class MainActivity : AppCompatActivity() {
                 call: Call<TmdbResponse>,
                 response: Response<TmdbResponse>
             ) {
+                isLoadingPage = false
                 if (response.isSuccessful) {
                     val tmdbMovies =
                         response.body()?.results ?: emptyList()
@@ -291,9 +353,8 @@ class MainActivity : AppCompatActivity() {
                             it.posterPath
                         )
                     }
-                    allMovies.clear()
                     allMovies.addAll(movies)
-                    movieAdapter.updateMovies(movies)
+                    movieAdapter.addMovies(movies)
                     showContent()
                 } else {
                     println("ERROR CODE: ${response.code()}")
@@ -311,6 +372,7 @@ class MainActivity : AppCompatActivity() {
                 call: Call<TmdbResponse>,
                 t: Throwable
             ) {
+                isLoadingPage = false
                 println("FAILURE: ${t.message}")
                 t.printStackTrace()
                 showError("Sin conexión a Internet")

@@ -6,22 +6,27 @@ import retrofit2.http.Header
 import ar.edu.unicen.seminario.network.dto.TmdbResponse
 import retrofit2.http.Path
 import ar.edu.unicen.seminario.network.dto.MovieDetailResponse
+import retrofit2.http.Query
+
 
 interface TmdbApiService {
 
     @GET("movie/popular")
     fun getPopularMovies(
-        @Header("Authorization") authorization: String
+        @Header("Authorization") authorization: String,
+        @Query("page") page: Int
     ): Call<TmdbResponse>
 
     @GET("trending/movie/week")
     fun getTrendingMovies(
-        @Header("Authorization") authorization: String
+        @Header("Authorization") authorization: String,
+        @Query("page") page: Int
     ): Call<TmdbResponse>
 
     @GET("movie/upcoming")
     fun getUpcomingMovies(
-        @Header("Authorization") authorization: String
+        @Header("Authorization") authorization: String,
+        @Query("page") page: Int
     ): Call<TmdbResponse>
 
     @GET("movie/{id}")
