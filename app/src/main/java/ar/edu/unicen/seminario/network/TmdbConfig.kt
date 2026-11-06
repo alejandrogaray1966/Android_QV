@@ -1,5 +1,7 @@
 package ar.edu.unicen.seminario.network
 
+import java.util.Locale
+
 /**
  * Configuración centralizada de TMDB.
  *
@@ -24,5 +26,19 @@ object TmdbConfig {
      * URL base para las imágenes.
      */
     const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
+
+    /**
+     * Devuelve el language que se enviará a TMDB
+     * según la configuración del dispositivo.
+     */
+    fun getLanguage(): String {
+        return when (Locale.getDefault().language) {
+            "es" -> "es-ES"
+            "en" -> "en-US"
+            "pt" -> "pt-BR"
+            "fr" -> "fr-FR"
+            else -> "en-US"
+        }
+    }
 
 }

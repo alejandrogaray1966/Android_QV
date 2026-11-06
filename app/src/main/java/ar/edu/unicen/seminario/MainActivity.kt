@@ -307,7 +307,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadPopularMovies() {
         loadMovies(
-            RetrofitClient.api.getPopularMovies(TmdbConfig.TOKEN, currentPage)
+            RetrofitClient.api.getPopularMovies(
+                TmdbConfig.TOKEN,
+                currentPage,
+                TmdbConfig.getLanguage())
         )
     }
 
@@ -316,7 +319,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadTrendingMovies() {
         loadMovies(
-            RetrofitClient.api.getTrendingMovies(TmdbConfig.TOKEN, currentPage)
+            RetrofitClient.api.getTrendingMovies(
+                TmdbConfig.TOKEN,
+                currentPage,
+                TmdbConfig.getLanguage())
         )
     }
 
@@ -325,7 +331,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun loadUpcomingMovies() {
         loadMovies(
-            RetrofitClient.api.getUpcomingMovies(TmdbConfig.TOKEN, currentPage)
+            RetrofitClient.api.getUpcomingMovies(
+                TmdbConfig.TOKEN,
+                currentPage,
+                TmdbConfig.getLanguage())
         )
     }
 

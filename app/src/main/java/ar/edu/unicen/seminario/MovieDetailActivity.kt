@@ -60,7 +60,8 @@ class MovieDetailActivity : AppCompatActivity() {
          */
         RetrofitClient.api.getMovieDetail(
             movieId,
-            TmdbConfig.TOKEN
+            TmdbConfig.TOKEN,
+            TmdbConfig.getLanguage()
         /*
          * La petición se ejecuta de forma asíncrona.
          *
